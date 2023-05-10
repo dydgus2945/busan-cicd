@@ -1,5 +1,5 @@
 # [0] 가상머신 생성
-```ruby
+
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
