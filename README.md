@@ -1,31 +1,5 @@
 # [0] 가상머신 생성
 
-# -*- mode: ruby -*-
-# vi: set ft=ruby :
-
-Vagrant.configure("2") do |config|
-  config.vm.define "jenkins" do |config|
-    config.vm.box = "ubuntu/focal64"
-    config.vm.hostname = "jenkins"
-    config.vm.network "private_network", ip: "192.168.56.10"
-    config.vm.provider "virtualbox" do |vb|
-      vb.name = "jenkins"
-      vb.memory = "4096"
-      vb.cpus = 2
-    end
-  end
-  config.vm.provision "shell", inline: <<-SHELL
-    sed -i 's/ChallengeResponseAuthentication no/ChallengeResponseAuthentication yes/g' /etc/ssh/sshd_config
-    systemctl restart ssh
-    sed -i 's/archive.ubuntu.com/ftp.daum.net/g' /etc/apt/sources.list
-    sed -i 's/security.ubuntu.com/ftp.daum.net/g' /etc/apt/sources.list
-  SHELL
-end
-```
-```powershell
-PS C:\Users\SBAUser\cicd> vagrant up
-PS C:\Users\SBAUser\cicd> vagrant ssh jenkins
-```
 AWS 인스턴스로 대체 가능
 
 # [1] built-in 노드 준비
