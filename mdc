@@ -1,0 +1,20 @@
+
+export subscriptionId="3aae7d51-3c90-4616-ae3a-1c8aca6a8bce";
+export resourceGroup="RG-MDC-test";
+export tenantId="a74b5451-a280-4768-a5cd-cb47af153c71";
+export location="koreacentral";
+export authType="token";
+export correlationId="b32e133c-611a-4157-b80f-5447fdce789d";
+export cloud="AzureCloud";
+
+
+# 설치 패키지 다운로드
+output=$(wget https://aka.ms/azcmagent -O ~/install_linux_azcmagent.sh 2>&1);
+if [ $? != 0 ]; then wget -qO- --method=PUT --body-data="{\"subscriptionId\":\"$subscriptionId\",\"resourceGroup\":\"$resourceGroup\",\"tenantId\":\"$tenantId\",\"location\":\"$location\",\"correlationId\":\"$correlationId\",\"authType\":\"$authType\",\"operation\":\"onboarding\",\"messageType\":\"DownloadScriptFailed\",\"message\":\"$output\"}" "https://gbl.his.arc.azure.com/log" &> /dev/null || true; fi;
+echo "$output";
+
+# 하이브리드 에이전트 설치
+bash ~/install_linux_azcmagent.sh;
+
+# 연결 명령 실행
+sudo azcmagent connect --resource-group "$resourceGroup" --tenant-id "$tenantId" --location "$location" --subscription-id "$subscriptionId" --cloud "$cloud" --correlation-id "$correlationId";
